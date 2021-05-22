@@ -21,7 +21,7 @@
   <br>
 </div>
 
-Squid is an API client for [Kraken](https://kraken.com).
+Squid is a REST API client for [Kraken](https://kraken.com).
 
 # Quickstart
 The API client comes in two flavors: `PublicApiClient` and `PrivateApiClient`.
