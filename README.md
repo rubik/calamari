@@ -23,10 +23,31 @@
 
 squid is an API client for [Kraken](https://kraken.com).
 
-# Features
-
 # Quickstart
+The API client comes in two flavors: `PublicApiClient` and `PrivateApiClient`.
+The former has access to the public methods only, the latter to all endpoints.
+This is enforced at compile-time, as all the endpoints are defined statically
+in the traits `PublicEndpoints` and `PrivateEndpoints`.
 
+```rust
+use squid::{PublicApiClient, PublicEndpoints};
+
+// Note: to run this example you will need to add Tokio to your dependencies:
+// tokio = { version = "1.0", features = ["macros", "rt-multi-thread"] }
+
+#[tokio::main]
+async fn main() {
+    let client = PublicApiClient::default();
+    println!("Server time: {}", client.time().await.unwrap());
+    println!("System status: {}", client.system_status().await.unwrap());
+    println!("Ticker: {}", client.ticker("pair=XBTUSD".into()).await.unwrap());
+}
+```
+
+Each endpoint accepts either zero arguments or a single argument containing all
+the request parameters in urlencode format. All endpoints return a `String`
+containing the JSON response from the server, leaving the user with complete
+freedom in how they want to handle it.
 
 <div>
   <small>

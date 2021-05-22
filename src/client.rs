@@ -1,8 +1,8 @@
 use std::future::Future;
 use std::pin::Pin;
 
-use crate::methods::{
-    BaseClient, PrivateClient, PrivateMethods, PublicClient, PublicMethods,
+use crate::endpoints::{
+    BaseClient, PrivateClient, PrivateEndpoints, PublicClient, PublicEndpoints,
 };
 use crate::models::{ApiCredentials, ApiParams};
 
@@ -62,7 +62,19 @@ impl PrivateApiClient {
     }
 }
 
-macro_rules! method_impls {
+macro_rules! nullary_method_impls {
+    ( $api_request:ident, $($func:ident: $name:expr),* $(,)? ) => {
+        $(
+            fn $func<'a, 'async_trait>(&'a self) ->
+                Pin<Box<dyn Future<Output = reqwest::Result<String>> + Send + 'async_trait>>
+                where 'a: 'async_trait, Self: Sync + 'async_trait {
+                Box::pin(self.client.$api_request($name, "".into()))
+            }
+        )*
+    };
+}
+
+macro_rules! unary_method_impls {
     ( $api_request:ident, $($func:ident: $name:expr),* $(,)? ) => {
         $(
             fn $func<'a, 'async_trait>(&'a self, params: String) ->
@@ -74,21 +86,54 @@ macro_rules! method_impls {
     };
 }
 
-macro_rules! public_method_impls {
+macro_rules! nullary_public_method_impls {
     ( $($func:ident: $name:expr),* $(,)? ) => {
-        method_impls!(public_api_request, $($func: $name,)*);
+        nullary_method_impls!(public_api_request, $($func: $name,)*);
     };
 }
 
-macro_rules! private_method_impls {
+macro_rules! unary_public_method_impls {
     ( $($func:ident: $name:expr),* $(,)? ) => {
-        method_impls!(private_api_request, $($func: $name,)*);
+        unary_method_impls!(public_api_request, $($func: $name,)*);
     };
 }
 
-impl PublicMethods for PublicApiClient {
-    public_method_impls! {
+macro_rules! nullary_private_method_impls {
+    ( $($func:ident: $name:expr),* $(,)? ) => {
+        nullary_method_impls!(private_api_request, $($func: $name,)*);
+    };
+}
+
+macro_rules! unary_private_method_impls {
+    ( $($func:ident: $name:expr),* $(,)? ) => {
+        unary_method_impls!(private_api_request, $($func: $name,)*);
+    };
+}
+
+impl PublicEndpoints for PublicApiClient {
+    nullary_public_method_impls! {
         time: "Time",
+        system_status: "SystemStatus",
+    }
+
+    unary_public_method_impls! {
+        assets: "Assets",
+        asset_pairs: "AssetPairs",
+        ticker: "Ticker",
+        ohlc: "OHLC",
+        depth: "Depth",
+        trades: "Trades",
+        spread: "Spread",
+    }
+}
+
+impl PublicEndpoints for PrivateApiClient {
+    nullary_public_method_impls! {
+        time: "Time",
+        system_status: "SystemStatus",
+    }
+
+    unary_public_method_impls! {
         assets: "Assets",
         asset_pairs: "AssetPairs",
         ticker: "Ticker",
@@ -99,22 +144,12 @@ impl PublicMethods for PublicApiClient {
     }
 }
 
-impl PublicMethods for PrivateApiClient {
-    public_method_impls! {
-        time: "Time",
-        assets: "Assets",
-        asset_pairs: "AssetPairs",
-        ticker: "Ticker",
-        depth: "Depth",
-        trades: "Trades",
-        spread: "Spread",
-        ohlc: "OHLC",
-    }
-}
-
-impl PrivateMethods for PrivateApiClient {
-    private_method_impls! {
+impl PrivateEndpoints for PrivateApiClient {
+    nullary_private_method_impls! {
         balance: "Balance",
+    }
+
+    unary_private_method_impls! {
         trade_balance: "TradeBalance",
         open_orders: "OpenOrders",
         closed_orders: "ClosedOrders",
@@ -125,8 +160,14 @@ impl PrivateMethods for PrivateApiClient {
         ledgers: "Ledgers",
         query_ledgers: "QueryLedgers",
         trade_volume: "TradeVolume",
+        add_export: "AddExport",
+        export_status: "ExportStatus",
+        retrieve_export: "RetrieveExport",
+        remove_export: "RemoveExport",
         add_order: "AddOrder",
         cancel_order: "CancelOrder",
+        cancel_all: "CancelAll",
+        cancel_all_after: "CancelAllOrdersAfter",
         deposit_methods: "DepositMethods",
         deposit_addresses: "DepositAddresses",
         deposit_status: "DepositStatus",
@@ -134,6 +175,7 @@ impl PrivateMethods for PrivateApiClient {
         withdraw: "Withdraw",
         withdraw_status: "WithdrawStatus",
         withdraw_cancel: "WithdrawCancel",
+        wallet_transfer: "WalletTransfer",
         get_websockets_token: "GetWebsocketsToken",
     }
 }

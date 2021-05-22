@@ -4,7 +4,17 @@ use std::pin::Pin;
 use crate::models::{ApiCredentials, ApiParams, Endpoint};
 use crate::request::api_request;
 
-macro_rules! method_defs {
+macro_rules! nullary_method_defs {
+    ( $($func:ident),* $(,)? ) => {
+        $(
+            fn $func<'a, 'async_trait>(&'a self) ->
+                Pin<Box<dyn Future<Output = reqwest::Result<String>> + Send + 'async_trait>>
+                where 'a: 'async_trait, Self: Sync + 'async_trait;
+        )*
+    };
+}
+
+macro_rules! unary_method_defs {
     ( $($func:ident),* $(,)? ) => {
         $(
             fn $func<'a, 'async_trait>(&'a self, params: String) ->
@@ -14,22 +24,29 @@ macro_rules! method_defs {
     };
 }
 
-pub trait PublicMethods {
-    method_defs! {
+pub trait PublicEndpoints {
+    nullary_method_defs! {
         time,
+        system_status,
+    }
+
+    unary_method_defs! {
         assets,
         asset_pairs,
         ticker,
+        ohlc,
         depth,
         trades,
         spread,
-        ohlc,
     }
 }
 
-pub trait PrivateMethods {
-    method_defs! {
+pub trait PrivateEndpoints {
+    nullary_method_defs! {
         balance,
+    }
+
+    unary_method_defs! {
         trade_balance,
         open_orders,
         closed_orders,
@@ -40,8 +57,14 @@ pub trait PrivateMethods {
         ledgers,
         query_ledgers,
         trade_volume,
+        add_export,
+        export_status,
+        retrieve_export,
+        remove_export,
         add_order,
         cancel_order,
+        cancel_all,
+        cancel_all_after,
         deposit_methods,
         deposit_addresses,
         deposit_status,
@@ -49,6 +72,7 @@ pub trait PrivateMethods {
         withdraw,
         withdraw_status,
         withdraw_cancel,
+        wallet_transfer,
         get_websockets_token,
     }
 }
