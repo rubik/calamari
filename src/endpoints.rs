@@ -24,6 +24,8 @@ macro_rules! unary_method_defs {
     };
 }
 
+/// A collection of all the public endpoints ([Kraken API
+/// documentation](https://docs.kraken.com/rest/#tag/Market-Data)).
 pub trait PublicEndpoints {
     nullary_method_defs! {
         time,
@@ -41,6 +43,8 @@ pub trait PublicEndpoints {
     }
 }
 
+/// A collection of all the private endpoints ([Kraken API
+/// documentation](https://docs.kraken.com/rest/#tag/User-Data)).
 pub trait PrivateEndpoints {
     nullary_method_defs! {
         balance,

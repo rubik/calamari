@@ -6,9 +6,15 @@ use crate::endpoints::{
 };
 use crate::models::{ApiCredentials, ApiParams};
 
+/// Client for the public API. It implements all the methods under the
+/// [`PublicEndpoints`] trait.
 pub type PublicApiClient = ApiClient<PublicClient>;
+/// Client for the private and public APIs. It implements all the methods under
+/// the [`PublicEndpoints`] and [`PrivateApiClient`] traits.
 pub type PrivateApiClient = ApiClient<PrivateClient>;
 
+/// Base client class for the API. It shouldn't be used directly, rather prefer
+/// the type synonyms [`PublicApiClient`] and [`PrivateApiClient`].
 pub struct ApiClient<C: BaseClient> {
     client: C,
 }
@@ -26,6 +32,8 @@ impl PublicApiClient {
         }
     }
 
+    /// Consume the public client to get a private one, by supplying the API
+    /// credentials.
     pub fn set_credentials(
         self,
         api_credentials: ApiCredentials,

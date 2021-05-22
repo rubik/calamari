@@ -13,21 +13,31 @@ impl ToString for Endpoint {
     }
 }
 
+/// A type holding the base parameters for the API: the URL and the API version.
+/// The Default implementation sets them to `https://api.kraken.com` and `0`
+/// respectively.
 #[derive(Debug, Clone, PartialEq)]
 pub struct ApiParams {
-    pub(crate) url: &'static str,
-    pub(crate) version: &'static str,
+    pub(crate) url: String,
+    pub(crate) version: String,
+}
+
+impl ApiParams {
+    pub fn new(url: String, version: String) -> Self {
+        Self { url, version }
+    }
 }
 
 impl Default for ApiParams {
     fn default() -> Self {
         Self {
-            url: "https://api.kraken.com",
-            version: "0",
+            url: "https://api.kraken.com".into(),
+            version: "0".into(),
         }
     }
 }
 
+/// A type holding the API credentials: the API key and secret.
 #[derive(Debug, Clone)]
 pub struct ApiCredentials {
     pub(crate) api_key: String,
@@ -64,10 +74,7 @@ mod tests {
     fn test_api_params_default() {
         assert_eq!(
             ApiParams::default(),
-            ApiParams {
-                url: "https://api.kraken.com",
-                version: "0"
-            }
+            ApiParams::new("https://api.kraken.com".into(), "0".into())
         );
     }
 }

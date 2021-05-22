@@ -58,7 +58,10 @@ use squid::{ApiCredentials, PrivateApiClient, PublicEndpoints, PrivateEndpoints}
 
 #[tokio::main]
 async fn main() {
-    let credentials = ApiCredentials::new("YOUR_API_KEY", "YOUR_API_SECRET");
+    let credentials = ApiCredentials::new(
+        "YOUR_API_KEY".into(),
+        "YOUR_API_SECRET".into(),
+    );
     let client = PrivateApiClient::default_with_credentials(credentials);
     // Alternatively, if `client` is already a `PublicApiClient`:
     // let client = client.set_credentials(credentials);
