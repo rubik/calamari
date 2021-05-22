@@ -1,27 +1,27 @@
 <div align="center">
-  <img alt="squid logo" src="https://github.com/rubik/squid/raw/master/images/logo.png" height="130" />
+  <img alt="calamari logo" src="https://github.com/rubik/calamari/raw/master/images/logo.png" height="130" />
 </div>
 
 <div align="center">
-  <h1>Squid</h1>
+  <h1>Calamari</h1>
   <p>Minimal and elegant async REST API client for Kraken</p>
-  <a target="_blank" href="https://travis-ci.org/rubik/squid">
-    <img src="https://img.shields.io/travis/rubik/squid?style=for-the-badge" alt="Build">
+  <a target="_blank" href="https://travis-ci.org/rubik/calamari">
+    <img src="https://img.shields.io/travis/rubik/calamari?style=for-the-badge" alt="Build">
   </a>
-  <a target="_blank" href="https://coveralls.io/github/rubik/squid">
-    <img src="https://img.shields.io/coveralls/github/rubik/squid?style=for-the-badge" alt="Code Coverage">
+  <a target="_blank" href="https://coveralls.io/github/rubik/calamari">
+    <img src="https://img.shields.io/coveralls/github/rubik/calamari?style=for-the-badge" alt="Code Coverage">
   </a>
-  <a target="_blank" href="https://crates.io/crates/squid">
-   <img src="https://img.shields.io/crates/d/squid?style=for-the-badge" alt="Downloads (all time)">
+  <a target="_blank" href="https://crates.io/crates/calamari">
+   <img src="https://img.shields.io/crates/d/calamari?style=for-the-badge" alt="Downloads (all time)">
   <a>
-  <a href="https://github.com/rubik/squid/blob/master/LICENSE">
-    <img src="https://img.shields.io/crates/l/squid?style=for-the-badge" alt="ISC License">
+  <a href="https://github.com/rubik/calamari/blob/master/LICENSE">
+    <img src="https://img.shields.io/crates/l/calamari?style=for-the-badge" alt="ISC License">
   </a>
   <br>
   <br>
 </div>
 
-Squid is a REST API client for [Kraken](https://kraken.com).
+Calamari is a REST API client for [Kraken](https://kraken.com).
 
 # Quickstart
 The API client comes in two flavors: `PublicApiClient` and `PrivateApiClient`.
@@ -30,7 +30,7 @@ This is enforced at compile-time, as all the endpoints are defined statically
 in the traits `PublicEndpoints` and `PrivateEndpoints`.
 
 ```rust
-use squid::{PublicApiClient, PublicEndpoints};
+use calamari::{PublicApiClient, PublicEndpoints};
 
 // Note: to run this example you will need to add Tokio to your dependencies:
 // tokio = { version = "1.0", features = ["macros", "rt-multi-thread"] }
@@ -54,7 +54,7 @@ A `PrivateApiClient` can be instantiated directly, or created from an existing
 method.
 
 ```rust
-use squid::{ApiCredentials, PrivateApiClient, PublicEndpoints, PrivateEndpoints};
+use calamari::{ApiCredentials, PrivateApiClient, PublicEndpoints, PrivateEndpoints};
 
 #[tokio::main]
 async fn main() {

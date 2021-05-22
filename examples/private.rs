@@ -1,4 +1,4 @@
-use squid::{ApiCredentials, PrivateApiClient, PublicEndpoints, PrivateEndpoints};
+use calamari::{ApiCredentials, PrivateApiClient, PublicEndpoints, PrivateEndpoints};
 
 #[tokio::main]
 async fn main() {

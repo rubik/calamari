@@ -1,11 +1,11 @@
 [package]
-name = "squid"
+name = "calamari"
 version = "0.1.0"
 description = "Minimal, elegant and async REST API client for Kraken"
 authors = ["Michele Lacchia <michelelacchia@gmail.com>"]
 edition = "2018"
 license = "ISC"
-repository = "https://github.com/rubik/squid"
+repository = "https://github.com/rubik/calamari"
 keywords = ["kraken", "exchange", "api", "rest", "cryptocurrency", "async"]
 categories = ["api-bindings", "web-programming::http-client"]
 readme = "README.md"

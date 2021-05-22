@@ -1,4 +1,4 @@
-//! Squid is a REST API client for [Kraken](https://kraken.com).
+//! Calamari is a REST API client for [Kraken](https://kraken.com).
 //!
 //! # Quickstart
 //! The API client comes in two flavors: `PublicApiClient` and `PrivateApiClient`.
@@ -7,7 +7,7 @@
 //! in the traits `PublicEndpoints` and `PrivateEndpoints`.
 //!
 //! ```rust
-//! use squid::{PublicApiClient, PublicEndpoints};
+//! use calamari::{PublicApiClient, PublicEndpoints};
 //!
 //! // Note: to run this example you will need to add Tokio to your dependencies:
 //! // tokio = { version = "1.0", features = ["macros", "rt-multi-thread"] }
@@ -31,7 +31,7 @@
 //! method.
 //!
 //! ```rust
-//! use squid::{ApiCredentials, PrivateApiClient, PublicEndpoints, PrivateEndpoints};
+//! use calamari::{ApiCredentials, PrivateApiClient, PublicEndpoints, PrivateEndpoints};
 //!
 //! #[tokio::main]
 //! async fn main() {
