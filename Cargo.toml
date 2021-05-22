@@ -1,12 +1,12 @@
 [package]
 name = "calamari"
 version = "0.1.0"
-description = "Minimal, elegant and async REST API client for Kraken"
+description = "Minimal, elegant and async REST API client for the Kraken cryptocurrency exchange"
 authors = ["Michele Lacchia <michelelacchia@gmail.com>"]
 edition = "2018"
 license = "ISC"
 repository = "https://github.com/rubik/calamari"
-keywords = ["kraken", "exchange", "api", "rest", "cryptocurrency", "async"]
+keywords = ["kraken", "async", "api", "rest", "cryptocurrency"]
 categories = ["api-bindings", "web-programming::http-client"]
 readme = "README.md"
 
