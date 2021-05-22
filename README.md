@@ -3,7 +3,7 @@
 </div>
 
 <div align="center">
-  <h1>squid</h1>
+  <h1>Squid</h1>
   <p>Minimal and elegant async REST API client for Kraken</p>
   <a target="_blank" href="https://travis-ci.org/rubik/squid">
     <img src="https://img.shields.io/travis/rubik/squid?style=for-the-badge" alt="Build">
@@ -21,7 +21,7 @@
   <br>
 </div>
 
-squid is an API client for [Kraken](https://kraken.com).
+Squid is an API client for [Kraken](https://kraken.com).
 
 # Quickstart
 The API client comes in two flavors: `PublicApiClient` and `PrivateApiClient`.
@@ -48,6 +48,29 @@ Each endpoint accepts either zero arguments or a single argument containing all
 the request parameters in urlencode format. All endpoints return a `String`
 containing the JSON response from the server, leaving the user with complete
 freedom in how they want to handle it.
+
+A `PrivateApiClient` can be instantiated directly, or created from an existing
+`PublicApiClient` by supplying the API credentials with the `set_credentials`
+method.
+
+```rust
+use squid::{ApiCredentials, PrivateApiClient, PublicEndpoints, PrivateEndpoints};
+
+#[tokio::main]
+async fn main() {
+    let credentials = ApiCredentials::new("YOUR_API_KEY", "YOUR_API_SECRET");
+    let client = PrivateApiClient::default_with_credentials(credentials);
+    // Alternatively, if `client` is already a `PublicApiClient`:
+    // let client = client.set_credentials(credentials);
+
+    println!("Server time: {}", client.time().await.unwrap());
+    println!("System status: {}", client.system_status().await.unwrap());
+    println!("Ticker: {}", client.ticker("pair=XBTUSD".into()).await.unwrap());
+
+    println!("Account balance: {}", client.balance().await.unwrap());
+    println!("Open orders: {}", client.open_orders("trades=true".into()).await.unwrap());
+}
+```
 
 <div>
   <small>

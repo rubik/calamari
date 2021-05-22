@@ -51,7 +51,7 @@ impl PrivateApiClient {
         }
     }
 
-    pub fn default(api_credentials: ApiCredentials) -> Self {
+    pub fn default_with_credentials(api_credentials: ApiCredentials) -> Self {
         Self {
             client: PrivateClient::new(
                 reqwest::Client::default(),

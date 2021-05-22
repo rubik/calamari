@@ -11,7 +11,7 @@ use crate::models::{ApiParams, Endpoint};
 
 type HmacSha512 = Hmac<Sha512>;
 
-pub async fn api_request(
+pub(crate) async fn api_request(
     http: &Client,
     api_params: &ApiParams,
     endpoint: Endpoint,
@@ -66,7 +66,7 @@ fn get_signature(
     // API-Sign = Message signature using HMAC-SHA512 of (URI path + SHA256(nonce + POST data)) and base64 decoded secret API key
     let hash_digest =
         Sha256::digest(format!("{}{}", nonce, url_encoded_body).as_bytes());
-    let private_key = base64::decode(&api_secret).unwrap();
+    let private_key = base64::decode(&api_secret).expect("invalid private key");
     let mut mac = HmacSha512::new_from_slice(&private_key).unwrap();
     let mut hmac_data = api_path.into_bytes();
     hmac_data.append(&mut hash_digest.to_vec());
