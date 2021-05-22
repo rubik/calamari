@@ -2,6 +2,7 @@
 name = "calamari"
 version = "0.1.0"
 description = "Minimal, elegant and async REST API client for the Kraken cryptocurrency exchange"
+documentation = "https://docs.rs/calamari/latest/calamari/"
 authors = ["Michele Lacchia <michelelacchia@gmail.com>"]
 edition = "2018"
 license = "ISC"

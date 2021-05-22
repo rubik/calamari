@@ -75,6 +75,10 @@ async fn main() {
 }
 ```
 
+# Documentation
+The complete documentation is available on
+[docs.rs](https://docs.rs/calamari/latest/calamari/).
+
 <div>
   <small>
     Logo made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com" title="Flaticon">www.flaticon.com</a>
