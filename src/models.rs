@@ -13,7 +13,7 @@ impl ToString for Endpoint {
     }
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq)]
 pub struct ApiParams {
     pub(crate) url: &'static str,
     pub(crate) version: &'static str,
@@ -36,6 +36,38 @@ pub struct ApiCredentials {
 
 impl ApiCredentials {
     pub fn new(api_key: String, api_secret: String) -> Self {
-        Self { api_key, api_secret }
+        Self {
+            api_key,
+            api_secret,
+        }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_endpoint_string() {
+        let cred = ApiCredentials::new("key".into(), "secret".into());
+        assert_eq!(
+            Endpoint::Public("Ticker").to_string(),
+            "public/Ticker".to_string()
+        );
+        assert_eq!(
+            Endpoint::Private("Balance", cred).to_string(),
+            "private/Balance".to_string()
+        );
+    }
+
+    #[test]
+    fn test_api_params_default() {
+        assert_eq!(
+            ApiParams::default(),
+            ApiParams {
+                url: "https://api.kraken.com",
+                version: "0"
+            }
+        );
     }
 }

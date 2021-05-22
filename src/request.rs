@@ -40,8 +40,8 @@ pub(crate) async fn api_request(
             };
             let signature = get_signature(
                 api_path,
-                nonce.to_string(),
                 payload_body.to_owned(),
+                nonce.to_string(),
                 credentials.api_secret,
             );
             http.post(&api_endpoint)
@@ -59,14 +59,14 @@ pub(crate) async fn api_request(
 
 fn get_signature(
     api_path: String,
-    nonce: String,
     url_encoded_body: String,
+    nonce: String,
     api_secret: String,
 ) -> String {
-    // API-Sign = Message signature using HMAC-SHA512 of (URI path + SHA256(nonce + POST data)) and base64 decoded secret API key
     let hash_digest =
         Sha256::digest(format!("{}{}", nonce, url_encoded_body).as_bytes());
-    let private_key = base64::decode(&api_secret).expect("invalid private key");
+    let private_key =
+        base64::decode(&api_secret).expect("invalid private key");
     let mut mac = HmacSha512::new_from_slice(&private_key).unwrap();
     let mut hmac_data = api_path.into_bytes();
     hmac_data.append(&mut hash_digest.to_vec());
@@ -79,4 +79,29 @@ fn get_headers(api_key: &str, signature: &str) -> HeaderMap {
     headers.insert("API-Key", HeaderValue::from_str(api_key).unwrap());
     headers.insert("API-Sign", HeaderValue::from_str(signature).unwrap());
     headers
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    #[should_panic]
+    fn test_signature_invalid_private_key() {
+        let api_path = "public/Ticker".to_string();
+        let body = "pair=XBTUSD".to_string();
+        let nonce = "1693294932349".to_string();
+        let secret = "secret".to_string();
+        get_signature(api_path, body, nonce, secret);
+    }
+
+    #[test]
+    fn test_signature() {
+        let api_path = "private/TradeBalance".to_string();
+        let body = "asset=ZUSD".to_string();
+        let nonce = "1693294932349".to_string();
+        let secret = "c2VjcmV0".to_string();
+        let signature = "VYpAzfn/HF9VfX1vYtWhctBx9Q0mIeVLXPpEPyDOHS6oPZXGe9NMSdVwShCYLI5IngUgUlmpFmRqol7++CGPBw==".to_string();
+        assert_eq!(get_signature(api_path, body, nonce, secret), signature);
+    }
 }
