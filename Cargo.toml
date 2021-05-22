@@ -1,0 +1,18 @@
+[package]
+name = "squid"
+version = "0.1.0"
+description = "Minimal, elegant and async REST API client for Kraken"
+authors = ["Michele Lacchia <michelelacchia@gmail.com>"]
+edition = "2018"
+license = "MIT"
+repository = "https://github.com/rubik/squid"
+keywords = ["kraken", "exchange", "api", "rest", "cryptocurrency", "async"]
+categories = ["api-bindings", "web-programming::http-client"]
+readme = "README.md"
+
+[dependencies]
+sha2 = "0.9"
+hmac = "0.11"
+reqwest = "0.11"
+base64 = "0.13"
+async-trait = "0.1"
