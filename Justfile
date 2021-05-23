@@ -1,2 +1,2 @@
 f:
-	rustfmt $(find src -name "*.rs" -type f)
+	rustfmt $(find src examples -name "*.rs" -type f)

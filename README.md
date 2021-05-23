@@ -30,14 +30,14 @@ This is enforced at compile-time, as all the endpoints are defined statically
 in the traits `PublicEndpoints` and `PrivateEndpoints`.
 
 ```rust
-use calamari::{PublicApiClient, PublicEndpoints};
+use calamari::{KrakenPublicApiClient, KrakenPublicEndpoints};
 
 // Note: to run this example you will need to add Tokio to your dependencies:
 // tokio = { version = "1.0", features = ["macros", "rt-multi-thread"] }
 
 #[tokio::main]
 async fn main() {
-    let client = PublicApiClient::default();
+    let client = KrakenPublicApiClient::default();
     println!("Server time: {}", client.time().await.unwrap());
     println!("System status: {}", client.system_status().await.unwrap());
     println!("Ticker: {}", client.ticker("pair=XBTUSD".into()).await.unwrap());
@@ -54,7 +54,10 @@ A `PrivateApiClient` can be instantiated directly, or created from an existing
 method.
 
 ```rust
-use calamari::{ApiCredentials, PrivateApiClient, PublicEndpoints, PrivateEndpoints};
+use calamari::{
+    ApiCredentials, KrakenPrivateApiClient, KrakenPublicEndpoints,
+    KrakenPrivateEndpoints,
+};
 
 #[tokio::main]
 async fn main() {
@@ -62,7 +65,7 @@ async fn main() {
         "YOUR_API_KEY".into(),
         "YOUR_API_SECRET".into(),
     );
-    let client = PrivateApiClient::default_with_credentials(credentials);
+    let client = KrakenPrivateApiClient::default_with_credentials(credentials);
     // Alternatively, if `client` is already a `PublicApiClient`:
     // let client = client.set_credentials(credentials);
 

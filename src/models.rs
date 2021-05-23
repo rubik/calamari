@@ -1,3 +1,5 @@
+pub trait BaseClient {}
+
 #[derive(Debug, Clone)]
 pub(crate) enum Endpoint {
     Public(&'static str),
