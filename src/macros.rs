@@ -22,7 +22,7 @@ macro_rules! unary_method_defs {
 
 #[macro_export]
 macro_rules! client_defs {
-    ($pub_client:ident, $pub_api:ident, $pri_client:ident, $pri_api:ident) => {
+    ($pub_client:ident, $pub_api:ident, $api_url:expr, $api_version:expr) => {
         impl $pub_api {
             pub fn new(http: reqwest::Client, api_params: ApiParams) -> Self {
                 Self {
@@ -32,7 +32,28 @@ macro_rules! client_defs {
 
             pub fn default() -> Self {
                 Self {
-                    client: $pub_client::default(),
+                    client: $pub_client::new(
+                        reqwest::Client::default(),
+                        ApiParams::new($api_url.into(), $api_version.into()),
+                    ),
+                }
+            }
+        }
+    };
+    ($pub_client:ident, $pub_api:ident, $pri_client:ident, $pri_api:ident, $api_url:expr, $api_version:expr) => {
+        impl $pub_api {
+            pub fn new(http: reqwest::Client, api_params: ApiParams) -> Self {
+                Self {
+                    client: $pub_client::new(http, api_params),
+                }
+            }
+
+            pub fn default() -> Self {
+                Self {
+                    client: $pub_client::new(
+                        reqwest::Client::default(),
+                        ApiParams::new($api_url.into(), $api_version.into()),
+                    ),
                 }
             }
 
@@ -73,7 +94,7 @@ macro_rules! client_defs {
                 Self {
                     client: $pri_client::new(
                         reqwest::Client::default(),
-                        ApiParams::default(),
+                        ApiParams::new($api_url.into(), $api_version.into()),
                         api_credentials,
                     ),
                 }

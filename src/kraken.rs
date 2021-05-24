@@ -75,7 +75,7 @@ pub trait KrakenPrivateEndpoints {
     }
 }
 
-#[derive(Debug, Default)]
+#[derive(Debug)]
 pub struct KrakenPublicClient {
     pub(crate) http: reqwest::Client,
     pub(crate) api_params: ApiParams,
@@ -157,7 +157,9 @@ client_defs!(
     KrakenPublicClient,
     KrakenPublicApiClient,
     KrakenPrivateClient,
-    KrakenPrivateApiClient
+    KrakenPrivateApiClient,
+    "https://api.kraken.com",
+    "0"
 );
 
 impl KrakenPublicEndpoints for KrakenPublicApiClient {

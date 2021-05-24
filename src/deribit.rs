@@ -2,7 +2,7 @@ use std::future::Future;
 use std::pin::Pin;
 
 use crate::client::ApiClient;
-use crate::models::{ApiCredentials, ApiParams, BaseClient, Endpoint};
+use crate::models::{ApiParams, BaseClient, Endpoint};
 use crate::request::api_request;
 use crate::{
     client_defs, nullary_method_defs, nullary_method_impls,
@@ -13,9 +13,6 @@ use crate::{
 /// Client for the Deribit public API. It implements all the methods under the
 /// [`DeribitPublicEndpoints`] trait.
 pub type DeribitPublicApiClient = ApiClient<DeribitPublicClient>;
-/// Client for the Deribit private and public APIs. It implements all the methods
-/// under the [`DeribitPublicEndpoints`] and [`DeribitPrivateApiClient`] traits.
-pub type DeribitPrivateApiClient = ApiClient<DeribitPrivateClient>;
 
 /// A collection of all the public endpoints of the [Deribit
 /// API](https://docs.Deribit.com/rest/#tag/Market-Data).
@@ -55,7 +52,7 @@ pub trait DeribitPublicEndpoints {
     }
 }
 
-#[derive(Debug, Default)]
+#[derive(Debug)]
 pub struct DeribitPublicClient {
     pub(crate) http: reqwest::Client,
     pub(crate) api_params: ApiParams,
@@ -83,61 +80,11 @@ impl DeribitPublicClient {
     }
 }
 
-pub struct DeribitPrivateClient {
-    pub(crate) http: reqwest::Client,
-    pub(crate) api_params: ApiParams,
-    pub(crate) api_credentials: ApiCredentials,
-}
-
-impl BaseClient for DeribitPrivateClient {}
-
-impl DeribitPrivateClient {
-    pub fn new(
-        http: reqwest::Client,
-        api_params: ApiParams,
-        api_credentials: ApiCredentials,
-    ) -> Self {
-        Self {
-            http,
-            api_params,
-            api_credentials,
-        }
-    }
-
-    pub async fn public_api_request(
-        &self,
-        endpoint: &'static str,
-        body: String,
-    ) -> reqwest::Result<String> {
-        api_request(
-            &self.http,
-            &self.api_params,
-            Endpoint::Public(endpoint),
-            &body,
-        )
-        .await
-    }
-
-    pub async fn private_api_request(
-        &self,
-        endpoint: &'static str,
-        body: String,
-    ) -> reqwest::Result<String> {
-        api_request(
-            &self.http,
-            &self.api_params,
-            Endpoint::Private(endpoint, self.api_credentials.clone()),
-            &body,
-        )
-        .await
-    }
-}
-
 client_defs!(
     DeribitPublicClient,
     DeribitPublicApiClient,
-    DeribitPrivateClient,
-    DeribitPrivateApiClient
+    "https://deribit.com/api",
+    "v2"
 );
 
 impl DeribitPublicEndpoints for DeribitPublicApiClient {
