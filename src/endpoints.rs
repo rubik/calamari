@@ -66,6 +66,7 @@ pub trait PrivateEndpoints {
         retrieve_export,
         remove_export,
         add_order,
+        edit_order,
         cancel_order,
         cancel_all,
         cancel_all_after,

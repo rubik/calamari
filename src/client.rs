@@ -173,6 +173,7 @@ impl PrivateEndpoints for PrivateApiClient {
         retrieve_export: "RetrieveExport",
         remove_export: "RemoveExport",
         add_order: "AddOrder",
+        edit_order: "EditOrder",
         cancel_order: "CancelOrder",
         cancel_all: "CancelAll",
         cancel_all_after: "CancelAllOrdersAfter",
