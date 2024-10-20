@@ -1,6 +1,6 @@
 [package]
 name = "calamari"
-version = "0.1.0"
+version = "0.1.1"
 description = "Minimal, elegant and async REST API client for the Kraken cryptocurrency exchange"
 documentation = "https://docs.rs/calamari/latest/calamari/"
 authors = ["Michele Lacchia <michelelacchia@gmail.com>"]
