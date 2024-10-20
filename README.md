@@ -5,9 +5,6 @@
 <div align="center">
   <h1>Calamari</h1>
   <p>Minimal and elegant async REST API client for Kraken</p>
-  <a target="_blank" href="https://travis-ci.org/rubik/calamari">
-    <img src="https://img.shields.io/travis/rubik/calamari?style=for-the-badge" alt="Build">
-  </a>
   <a target="_blank" href="https://coveralls.io/github/rubik/calamari">
     <img src="https://img.shields.io/coveralls/github/rubik/calamari?style=for-the-badge" alt="Code Coverage">
   </a>
